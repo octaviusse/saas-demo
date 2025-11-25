@@ -61,3 +61,6 @@ ehthumbs.db
 # Cache
 .cache/
 /.cache
+
+# Ignore project specs directory (documentation, tests, or generated specs)
+specs/
