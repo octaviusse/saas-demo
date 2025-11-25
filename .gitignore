@@ -1,0 +1,63 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build output
+dist/
+dist-ssr/
+build/
+*.local
+
+# Vite / dev server cache
+.vite/
+.vite-deps/
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Database and generated data
+demo.db
+src/mockData.json
+
+# Test coverage
+coverage/
+.nyc_output/
+.vitest/
+
+# Logs
+*.log
+
+# OS and misc
+Thumbs.db
+desktop.ini
+ehthumbs.db
+*.pem
+*.p12
+*.key
+
+# npm pack
+*.tgz
+
+# Cache
+.cache/
+/.cache
