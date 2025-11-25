@@ -1,0 +1,56 @@
+# Docker ignore patterns for SaaS Dashboard Demo
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Environment variables (will be passed as build args)
+.env
+.env*.local
+
+# Development files
+*.local
+
+# Testing
+coverage/
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (keep essential docs, exclude development guides)
+README.md
+.github/
+
+# Logs
+*.log
+
+# Specs (not needed in production image)
+specs/
+
+# Test files
+tests/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
