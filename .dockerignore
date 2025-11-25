@@ -54,3 +54,6 @@ tests/
 *.test.tsx
 *.spec.ts
 *.spec.tsx
+
+# Local database file used for development - do not include in Docker context
+demo.db

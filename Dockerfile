@@ -34,8 +34,14 @@ ENV VITE_POSTHOG_HOST=${POSTHOG_HOST}
 ENV VITE_APP_NAME=${APP_NAME}
 ENV VITE_ENV=${ENV}
 
-# Generate mock data from SQLite database
-RUN node generate-mock-data.js
+# Create and seed SQLite database, then generate mock data
+# - Create database file and schema using sqlite3 utility
+# - Seed database using the provided Node script
+# - Generate src/mockData.json from demo.db
+RUN rm -f demo.db \
+  && sqlite3 demo.db < schema.sql \
+  && node scripts/seed-database.js \
+  && node generate-mock-data.js
 
 # Build application with Vite
 RUN npm run build

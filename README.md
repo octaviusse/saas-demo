@@ -45,6 +45,21 @@ npm run build
 npm run preview
 ```
 
+## Docker build and build-time data generation
+
+The Docker image is built in a multi-stage process. During the build, the repository will:
+
+- Create a fresh `demo.db` with the sqlite schema (using `schema.sql`).
+- Run `node scripts/seed-database.js` to populate the database with deterministic demo data.
+- Generate `src/mockData.json` by executing `node generate-mock-data.js` so that the final `dist` bundle contains a static snapshot of metrics and recent events.
+
+Important notes:
+
+- The local `demo.db` is intentionally excluded from the build context (see `.dockerignore`) to avoid non-deterministic builds from developer files.
+- If you need to inspect the generated database for debugging, run the seed and generate steps locally (see Quick Start above).
+- To produce deterministic builds in CI, make sure `npm ci` and the build args are provided to the Docker build step.
+
+
 ## Project Structure
 
 ```

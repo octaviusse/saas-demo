@@ -2,6 +2,7 @@
 // Populates demo.db with mock SaaS business data
 
 import Database from 'better-sqlite3';
+import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -14,6 +15,15 @@ const db = new Database(dbPath);
 // Enable foreign keys
 db.pragma('foreign_keys = ON');
 
+// Ensure schema exists (allows running seed directly without external sqlite CLI)
+try {
+  const schemaSql = readFileSync(join(__dirname, '..', 'schema.sql'), 'utf-8');
+  db.exec(schemaSql);
+  console.log('✓ Applied schema.sql');
+} catch (err) {
+  console.warn('⚠️  Could not apply schema.sql, continuing (it may already exist)');
+}
+
 console.log('🌱 Seeding database...');
 
 // Clear existing data
@@ -23,6 +33,13 @@ db.exec(`
   DELETE FROM subscriptions;
   DELETE FROM customers;
 `);
+
+// Reset sqlite_sequence to ensure AUTOINCREMENT sequences start from 1 on fresh databases
+try {
+  db.exec("DELETE FROM sqlite_sequence;");
+} catch (err) {
+  // sqlite_sequence table doesn't exist on some older SQLite versions; ignore errors
+}
 
 // Sample data
 const customers = [
@@ -51,6 +68,7 @@ const insertMany = db.transaction((items) => {
 insertMany(customers);
 console.log(`✓ Inserted ${customers.length} customers`);
 
+
 // Insert subscriptions
 const plans = ['Starter', 'Pro', 'Enterprise', 'Basic', 'Premium'];
 const planAmounts = { Starter: 5000, Pro: 15000, Enterprise: 50000, Basic: 3000, Premium: 25000 };
@@ -74,6 +92,7 @@ for (let i = 1; i <= 12; i++) {
 }
 
 const insertSubscription = db.prepare('INSERT INTO subscriptions (customer_id, plan_name, monthly_amount, status, start_date, canceled_at) VALUES (?, ?, ?, ?, ?, ?)');
+// (local) Debug logging removed for deterministic seeding in CI / Docker
 const insertSubscriptions = db.transaction((items) => {
   for (const item of items) {
     insertSubscription.run(item.customer_id, item.plan_name, item.monthly_amount, item.status, item.start_date, item.canceled_at);
