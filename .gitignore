@@ -64,3 +64,6 @@ ehthumbs.db
 
 # Ignore project specs directory (documentation, tests, or generated specs)
 specs/
+
+# Specify-generated artifacts and memory (CLI local state/memory)
+.specify/
